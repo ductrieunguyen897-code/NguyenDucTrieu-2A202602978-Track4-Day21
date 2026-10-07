@@ -43,9 +43,13 @@ File dữ liệu thực nghiệm: `results/autolabel_iou_benchmark.csv`.
 
 Nêu khi nào hệ thống hoặc phương pháp fail, vì sao fail, và liên hệ tới lớp nào trong 6 lớp debug: I/O, Geometry, Time, Preprocess, Model, Metric.
 
-![failure](../results/figures/fail_[ĐIỀN].png)
+![failure](../results/figures/fail_01_occlusion_pedestrian.png)
 
-[ĐIỀN]
+- **Trường hợp:** KITTI, frame `000011`, đối tượng người đi bộ thứ 2 ở cự ly 13.4 m (`object_id = 1`) bị che khuất nặng (`occlusion = 2`).
+- **Quan sát:** Phương pháp chiếu 8 góc 3D box đạt IoU cao tới 0.9709 với ground-truth ($[875, 152, 933, 256]$ so với GT $[874, 152, 933, 256]$). Trong khi đó, phương pháp tạo 2D box từ điểm LiDAR chỉ đạt IoU = 0.5100 (sụt giảm tới 0.4609 IoU).
+- **Nguyên nhân:** Người đi bộ thứ nhất (ở cự ly 12.4 m ngay phía trước) che khuất hơn 50% diện tích người đi bộ thứ hai. Cảm biến LiDAR là dạng line-of-sight không thể nhìn xuyên thấu vật cản, dẫn đến chỉ có 35 điểm LiDAR phản xạ ở phần cơ thể hở ra phía bên phải. Thuật toán lấy min-max cực trị điểm LiDAR sinh ra box $[893, 168, 932, 251]$ bị co hẹp mất 20 pixel chiều ngang bên trái và phần đỉnh đầu, không bao quát được toàn bộ cơ thể như nhãn camera 2D.
+- **Lớp debug:** Geometry / Preprocess (hạn chế vật lý về che khuất của cảm biến và sự khác biệt về quy ước gán nhãn: 2D box bao phủ toàn bộ vật thể cả phần bị che, trong khi LiDAR chỉ thu nhận phần bề mặt phản xạ nhìn thấy).
+- **Cách phát hiện khi chạy thật:** Giám sát mật độ điểm LiDAR thực tế so với mật độ kỳ vọng theo cự ly/thể tích của vật thể, hoặc đo tỉ lệ diện tích $\text{Area}_{\text{lidar}} / \text{Area}_{\text{corners}}$; nếu tỉ lệ này $< 0.70$, tự động gắn cờ "vật thể bị che khuất nặng - cần human review".
 
 ## 4. Khuyến nghị nếu triển khai thật
 
@@ -64,6 +68,9 @@ python -m starter.projection --data-root data/kitti_mini --frame 000011
 # 2. Chạy thí nghiệm chính đánh giá Auto-label IoU theo Occlusion và Yaw drift (CP3)
 python -m src.exp_autolabel --data-root data/kitti_mini --frames 000001 000011 000031
 python -m src.plot_autolabel
+
+# 3. Tạo ảnh minh hoạ Failure Case vật bị che khuất nặng (CP4)
+python -m src.visualize_failure
 ```
 
 ## 6. Khai báo sử dụng AI
