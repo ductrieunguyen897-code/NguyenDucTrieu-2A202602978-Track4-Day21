@@ -3,7 +3,7 @@
 > Thay **mọi** ô có chữ ĐIỀN nằm trong ngoặc vuông bằng nội dung của bạn, xoá luôn cả dấu ngoặc vuông. Lệnh `python tools/check_submission.py` sẽ báo FAIL nếu còn sót bất kỳ chỗ nào.
 
 - **Họ tên:** Nguyễn Đức Triệu
-- **MSSV:** 2A202602978 (phải trùng với MSSV trong tên repo `<HoVaTen>-<MSSV>-Track4-Day21`)
+- **MSSV:** 2A202602978
 - **Lớp:** AI20K-T4
 - **Link repo:** https://github.com/ductrieunguyen897-code/NguyenDucTrieu-2A202602978-Track4-Day21
 - **Topic:** F — Auto-label
