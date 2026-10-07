@@ -47,7 +47,8 @@ Use-case cụ thể (ADAS / robot / drone), trade-off và bước tiếp theo.
 Các lệnh tái tạo lại toàn bộ kết quả từ repo sạch.
 
 ```bash
-[ĐIỀN]
+# 1. Chạy demo projection chiếu LiDAR lên camera và vẽ 2D bbox nhãn (CP2)
+python -m starter.projection --data-root data/kitti_mini --frame 000011
 ```
 
 ## 6. Khai báo sử dụng AI
