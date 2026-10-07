@@ -53,9 +53,13 @@ Nêu khi nào hệ thống hoặc phương pháp fail, vì sao fail, và liên h
 
 ## 4. Khuyến nghị nếu triển khai thật
 
-Use-case cụ thể (ADAS / robot / drone), trade-off và bước tiếp theo.
-
-[ĐIỀN]
+- **Use-case cụ thể:** Pipeline tự động tiền gán nhãn 2D (Auto-labeling) và hệ thống ADAS hỗ trợ nhận diện vật cản cho xe tự hành.
+- **Đánh đổi (Trade-off):**
+  - *Tốc độ & Tài nguyên:* Dùng min-max điểm LiDAR tính toán cực nhanh, tốn ít tài nguyên và ôm sát vật thể ở cự ly gần (<15 m).
+  - *An toàn & Độ chính xác:* Khi vật thể bị che khuất (>50%) hoặc ở xa (>50 m), điểm LiDAR bị mất hoặc quá thưa, tạo box bị thiếu và nguy hiểm; lúc này phương pháp chiếu 8 góc 3D box an toàn hơn dù box bị rộng hơn một chút.
+- **Bước tiếp theo & Chỉ số ghi log:**
+  - Áp dụng cơ chế lai (hybrid): tự động dùng box LiDAR khi vật nhìn rõ (`occlusion ≤ 1`), và chuyển sang 3D box khi bị che khuất nặng.
+  - Ghi log thời gian thực: tỉ lệ diện tích $\text{Area}_{\text{lidar}} / \text{Area}_{\text{corners}}$ và số điểm LiDAR trên mỗi box. Tự động cảnh báo review nếu tỉ lệ diện tích $< 0.70$ hoặc số điểm $< 15$.
 
 ## 5. Cách chạy lại
 
@@ -79,4 +83,4 @@ Ghi rõ đã dùng công cụ AI nào, dùng vào việc gì, và bạn đã t�
 
 | Công cụ | Dùng cho việc gì | Bạn đã kiểm chứng thế nào |
 |---|---|---|
-| [ĐIỀN] | | |
+| Gemini / Antigravity Assistant | - Hỗ trợ lập trình 2 hàm biến đổi hệ toạ độ `velo_to_cam` và `cam_to_image` trong `starter/projection.py`.<br>- Viết mã nguồn thí nghiệm benchmark `src/exp_autolabel.py`, vẽ đồ thị `src/plot_autolabel.py` và trích xuất ảnh failure case `src/visualize_failure.py`.<br>- Hỗ trợ rà soát cấu trúc báo cáo kỹ thuật. | - Chạy `src.test_projection` kiểm tra điểm $(10, 0, 0)$ cho $z_{\text{cam}} = 9.73$ m và $(u, v) = (614, 175)$ khớp tuyệt đối với lý thuyết.<br>- Kiểm tra tính tái lập dữ liệu bằng `filecmp` cho kết quả `GIỐNG HỆT` 100%.<br>- Trực tiếp mở và đối chiếu ảnh overlay, ảnh failure case và kiểm tra chéo các dòng số liệu trong `results/autolabel_iou_benchmark.csv`. |
