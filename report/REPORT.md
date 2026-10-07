@@ -1,4 +1,4 @@
-# Báo cáo Day 6: [ĐIỀN tên đề tài ngắn]
+# Báo cáo Day 6: Đánh giá Auto-label 2D Bounding Box từ LiDAR và 3D Box
 
 > Thay **mọi** ô có chữ ĐIỀN nằm trong ngoặc vuông bằng nội dung của bạn, xoá luôn cả dấu ngoặc vuông. Lệnh `python tools/check_submission.py` sẽ báo FAIL nếu còn sót bất kỳ chỗ nào.
 
@@ -6,9 +6,9 @@
 - **MSSV:** 2A202602978 (phải trùng với MSSV trong tên repo `<HoVaTen>-<MSSV>-Track4-Day21`)
 - **Lớp:** AI20K-T4
 - **Link repo:** https://github.com/ductrieunguyen897-code/NguyenDucTrieu-2A202602978-Track4-Day21
-- **Topic:** [ĐIỀN một chữ cái A/B/C/D/E/F] — [ĐIỀN tên topic]
-- **Dataset:** [ĐIỀN một hoặc nhiều trong: data/synthetic, data/kitti_mini, data/nuscenes_mini_subset, log riêng]
-- **Các frame đã dùng:** [ĐIỀN danh sách frame id, ví dụ 000011, 000049 hoặc scene-0103_010]
+- **Topic:** F — Auto-label
+- **Dataset:** data/kitti_mini
+- **Các frame đã dùng:** 000011, 000001, 000031 
 
 > Hãy viết ngắn: mỗi mục từ 3 đến 8 dòng, ưu tiên số liệu và hình ảnh.
 
@@ -16,7 +16,7 @@
 
 Một câu khẳng định kỹ thuật có thể kiểm chứng. Ví dụ: *"Lệch yaw 1° làm 12% điểm LiDAR rơi ra khỏi vật thể ở 30 m, phát hiện được bằng edge-alignment score với ngưỡng X."*
 
-[ĐIỀN]
+Đối với các vật thể có độ che khuất không quá 50% (occlusion ≤ 1 trong KITTI), 2D bounding box tạo từ min-max hình chiếu các điểm LiDAR nằm trong 3D box đạt IoU trung bình với nhãn ground-truth 2D cao hơn so với 2D box tạo từ hình chiếu 8 góc của 3D box (tránh được việc box bị phình to do hiệu ứng phối cảnh 3D sang 2D); tuy nhiên ưu thế này mất đi khi vật thể bị che khuất trên 50% (occlusion = 2) do điểm LiDAR chỉ thu được bề mặt phản xạ nhìn thấy, dẫn đến box dự đoán bị co hẹp so với thực tế.
 
 ## 2. Evidence
 
